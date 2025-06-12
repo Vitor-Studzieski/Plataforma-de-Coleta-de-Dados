@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Interativa: Plataforma de Coleta de Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Areia e Ardósia -->
+    <!-- Application Structure Plan: A estrutura adota uma abordagem de narrativa visual em uma única página rolável, em vez de um relatório linear. Começa com uma visão macro (arquitetura interativa) para estabelecer o contexto. Em seguida, aprofunda-se nos componentes (stack de tecnologia, detalhes dos módulos) usando elementos interativos como cartões e abas para manter o engajamento. A aplicação culmina com uma visualização de dados simulada (dashboard), tornando o resultado final do projeto tangível e compreensível. Esta estrutura foi escolhida para transformar um documento técnico denso em uma experiência de descoberta, facilitando a compreensão para públicos técnicos e não técnicos. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Arquitetura do Sistema. Goal: Organizar/Informar. Viz/Method: Diagrama de fluxo horizontal feito com HTML/CSS/Flexbox. Interaction: Clicar em cada estágio revela uma descrição detalhada. Justification: Transforma o diagrama estático em um elemento de exploração, melhorando a retenção da informação. Library/Method: Vanilla JS, Tailwind.
+        - Report Info: Stack de Tecnologia. Goal: Informar/Comparar. Viz/Method: Grade de cartões. Interaction: Hover/Click nos cartões revela a justificativa para a escolha da tecnologia. Justification: Apresenta a informação de forma fragmentada e visualmente atraente, mais digestível que uma lista. Library/Method: Vanilla JS, Tailwind.
+        - Report Info: Dados de Exemplo do Dashboard. Goal: Demonstrar o resultado final. Viz/Method: Gráficos de Pizza e Linha. Interaction: Tooltips interativos ao passar o mouse. Justification: Concretiza o valor do projeto ao simular o produto final (o dashboard), mostrando que tipo de insights podem ser gerados. Library/Method: Chart.js (Canvas).
+        - Report Info: Detalhes dos Módulos. Goal: Organizar. Viz/Method: Sistema de abas. Interaction: Clicar nas abas alterna o conteúdo visível. Justification: Organiza uma grande quantidade de detalhes técnicos em um espaço compacto, evitando sobrecarga de informação e permitindo que o usuário foque em um módulo de cada vez. Library/Method: Vanilla JS, Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .tab-button.active {
+            background-color: #27272a; /* zinc-800 */
+            color: #ffffff;
+        }
+        .architecture-card .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .architecture-card.open .details {
+            max-height: 500px; 
+        }
+        .tech-card .details {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-zinc-800">Plataforma de Coleta de Dados</h1>
+            <p class="text-lg text-stone-600 mt-2">Uma Análise Interativa da Arquitetura e Solução Proposta</p>
+        </header>
+
+        <main>
+            <!-- Section 1: Interactive Architecture -->
+            <section id="architecture" class="mb-16">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-zinc-800">Arquitetura do Sistema</h2>
+                    <p class="mt-2 text-stone-600 max-w-3xl mx-auto">Esta seção detalha o fluxo de dados completo da nossa solução. A arquitetura foi desenhada para ser desacoplada, escalável e segura. Clique em cada um dos estágios abaixo para explorar como os dados se movem desde o aplicativo do usuário até o dashboard de análise.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    
+                    <div class="architecture-card w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md cursor-pointer border-l-4 border-sky-500">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">📱</span>
+                            <h3 class="font-bold text-lg">1. Frontend</h3>
+                        </div>
+                        <div class="details mt-2 text-sm text-stone-600">
+                            <p>O usuário se autentica e preenche um formulário no aplicativo móvel. A interface é projetada para ser simples e intuitiva, garantindo uma coleta de dados rápida e sem erros.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-2xl font-mono text-stone-400">→</div>
+
+                    <div class="architecture-card w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md cursor-pointer border-l-4 border-violet-500">
+                        <div class="flex items-center">
+                           <span class="text-2xl mr-3">☁️</span>
+                           <h3 class="font-bold text-lg">2. Backend</h3>
+                        </div>
+                        <div class="details mt-2 text-sm text-stone-600">
+                           <p>O aplicativo envia os dados do formulário para uma função serverless na nuvem através de uma API segura. Este backend lida com a lógica de negócio e validação.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-2xl font-mono text-stone-400">→</div>
+
+                    <div class="architecture-card w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md cursor-pointer border-l-4 border-emerald-500">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">📄</span>
+                            <h3 class="font-bold text-lg">3. Armazenamento</h3>
+                        </div>
+                         <div class="details mt-2 text-sm text-stone-600">
+                           <p>A função na nuvem processa os dados e os insere como uma nova linha em uma planilha do Google Sheets, que atua como nosso banco de dados simplificado.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-2xl font-mono text-stone-400">→</div>
+
+                    <div class="architecture-card w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md cursor-pointer border-l-4 border-amber-500">
+                        <div class="flex items-center">
+                           <span class="text-2xl mr-3">📊</span>
+                           <h3 class="font-bold text-lg">4. Visualização</h3>
+                        </div>
+                         <div class="details mt-2 text-sm text-stone-600">
+                           <p>O Looker Studio se conecta à planilha e atualiza um dashboard interativo quase em tempo real, permitindo a análise estratégica dos dados coletados.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Tech Stack -->
+            <section id="tech-stack" class="mb-16">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-zinc-800">Stack de Tecnologia</h2>
+                    <p class="mt-2 text-stone-600 max-w-3xl mx-auto">A seleção de tecnologias foi focada em robustez, escalabilidade e custo-benefício. Utilizamos serviços gerenciados para minimizar a necessidade de manutenção de infraestrutura. Passe o mouse ou clique em um cartão para ver a justificativa da escolha.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div class="tech-card bg-white p-6 rounded-lg shadow-md text-center group">
+                        <h3 class="font-bold text-lg">App Móvel</h3>
+                        <p class="font-semibold text-sky-600">React Native / Flutter</p>
+                        <p class="details mt-2 text-sm text-stone-600">Permite o desenvolvimento de um único código-base para iOS e Android, otimizando tempo e recursos.</p>
+                    </div>
+                    <div class="tech-card bg-white p-6 rounded-lg shadow-md text-center group">
+                        <h3 class="font-bold text-lg">Autenticação</h3>
+                        <p class="font-semibold text-amber-600">Firebase Auth</p>
+                        <p class="details mt-2 text-sm text-stone-600">Solução robusta e segura que gerencia todo o ciclo de vida do usuário com pouca configuração.</p>
+                    </div>
+                    <div class="tech-card bg-white p-6 rounded-lg shadow-md text-center group">
+                        <h3 class="font-bold text-lg">Backend</h3>
+                        <p class="font-semibold text-violet-600">Cloud Functions</p>
+                         <p class="details mt-2 text-sm text-stone-600">Altamente escalável e com ótimo custo-benefício (pague por uso), com integração perfeita aos serviços Google.</p>
+                    </div>
+                    <div class="tech-card bg-white p-6 rounded-lg shadow-md text-center group">
+                        <h3 class="font-bold text-lg">Banco de Dados</h3>
+                        <p class="font-semibold text-emerald-600">Google Sheets</p>
+                        <p class="details mt-2 text-sm text-stone-600">Simplifica a manipulação de dados para usuários de negócio e atende ao requisito principal do projeto.</p>
+                    </div>
+                    <div class="tech-card bg-white p-6 rounded-lg shadow-md text-center group">
+                        <h3 class="font-bold text-lg">Dashboarding</h3>
+                        <p class="font-semibold text-blue-600">Looker Studio</p>
+                        <p class="details mt-2 text-sm text-stone-600">Ferramenta gratuita e poderosa com integração nativa ao Google Sheets para criar painéis interativos.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 3: Module Details -->
+            <section id="modules" class="mb-16">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-zinc-800">Detalhes dos Módulos</h2>
+                    <p class="mt-2 text-stone-600 max-w-3xl mx-auto">Aqui, detalhamos as responsabilidades de cada componente principal do sistema. Navegue pelas abas para entender as funcionalidades do aplicativo, a lógica do backend e a estrutura do dashboard final.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="border-b border-stone-200 mb-4">
+                        <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                            <button class="tab-button active whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm rounded-t-md" data-tab="frontend">📱 App Móvel</button>
+                            <button class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm rounded-t-md" data-tab="backend">☁️ Backend</button>
+                            <button class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm rounded-t-md" data-tab="analysis">📊 Análise</button>
+                        </nav>
+                    </div>
+
+                    <div id="frontend-content" class="tab-content">
+                        <h4 class="font-bold text-xl mb-3">Responsabilidades do Frontend</h4>
+                        <ul class="list-disc list-inside space-y-2 text-stone-700">
+                            <li><strong>Fluxo de Autenticação:</strong> Gerenciar login, cadastro e recuperação de senha com Firebase. Manter o usuário logado entre sessões.</li>
+                            <li><strong>Tela de Formulário Segura:</strong> Acessível apenas para usuários autenticados, contendo campos como nome, valor, data e categoria.</li>
+                            <li><strong>Validação de Dados no Cliente:</strong> Garantir que os dados inseridos pelo usuário estejam no formato correto antes do envio.</li>
+                            <li><strong>Comunicação com API:</strong> Montar e enviar os dados em formato JSON para o backend via requisição POST.</li>
+                            <li><strong>Feedback ao Usuário:</strong> Exibir mensagens claras de sucesso ou erro após a tentativa de envio.</li>
+                        </ul>
+                    </div>
+
+                    <div id="backend-content" class="tab-content hidden">
+                         <h4 class="font-bold text-xl mb-3">Lógica do Backend (Cloud Function)</h4>
+                         <ul class="list-disc list-inside space-y-2 text-stone-700">
+                            <li><strong>Endpoint Seguro:</strong> Responder a requisições POST em uma URL específica (ex: /addData).</li>
+                            <li><strong>Verificação de Autenticação:</strong> Validar o token do Firebase no cabeçalho da requisição para garantir a legitimidade.</li>
+                            <li><strong>Validação no Servidor:</strong> Realizar uma segunda camada de validação dos dados recebidos.</li>
+                            <li><strong>Integração com Google Sheets:</strong> Usar uma conta de serviço para autenticar e adicionar os dados como uma nova linha na planilha de destino.</li>
+                            <li><strong>Resposta da API:</strong> Retornar um status HTTP apropriado (200 para sucesso, 4xx/5xx para erros) para o aplicativo.</li>
+                        </ul>
+                    </div>
+
+                    <div id="analysis-content" class="tab-content hidden">
+                         <h4 class="font-bold text-xl mb-3">Estrutura de Análise</h4>
+                         <ul class="list-disc list-inside space-y-2 text-stone-700">
+                             <li><strong>Estrutura da Planilha:</strong> Colunas bem definidas (Timestamp, Email do Usuário, etc.) para servir como fonte de dados limpa.</li>
+                             <li><strong>Fonte de Dados no Looker Studio:</strong> Conexão direta e segura com a planilha do Google Sheets.</li>
+                             <li><strong>Componentes do Dashboard:</strong>
+                                <ul class="list-['-_'] list-inside ml-4 mt-1">
+                                    <li><strong>KPIs:</strong> Indicadores chave como Total de Vendas e Ticket Médio.</li>
+                                    <li><strong>Gráficos de Tendência:</strong> Visualização de dados ao longo do tempo.</li>
+                                    <li><strong>Gráficos de Proporção:</strong> Análise da distribuição por categoria (ex: Venda vs. Manutenção).</li>
+                                    <li><strong>Tabela de Dados:</strong> Acesso aos registros brutos com filtros.</li>
+                                </ul>
+                             </li>
+                             <li><strong>Atualização Automática:</strong> O dashboard é configurado para buscar novos dados em intervalos regulares.</li>
+                         </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 4: Sample Dashboard -->
+            <section id="dashboard-preview" class="mb-16">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-zinc-800">Simulação do Dashboard</h2>
+                    <p class="mt-2 text-stone-600 max-w-3xl mx-auto">Para tornar o resultado mais tangível, esta seção apresenta uma simulação do dashboard que seria gerado com os dados coletados. Estes gráficos interativos representam os insights que a plataforma pode fornecer em tempo real.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white p-6 rounded-lg shadow-lg">
+                    <div>
+                        <h3 class="font-bold text-center text-lg mb-2">Distribuição por Categoria</h3>
+                        <div class="chart-container">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-center text-lg mb-2">Volume de Envios por Mês</h3>
+                         <div class="chart-container">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+             <!-- Section 5: Next Steps -->
+            <section id="next-steps">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-zinc-800">Próximos Passos e Considerações</h2>
+                    <p class="mt-2 text-stone-600 max-w-3xl mx-auto">Além da implementação principal, alguns pontos são cruciais para o sucesso e evolução do projeto.</p>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-lg mb-2">🔒 Segurança</h3>
+                        <p class="text-stone-600">A utilização de Contas de Serviço e a validação de tokens do Firebase são cruciais. Nunca exponha chaves de API no código do aplicativo.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-lg mb-2">🎨 Experiência do Usuário (UX/UI)</h3>
+                        <p class="text-stone-600">O design do aplicativo deve ser limpo e intuitivo, facilitando o preenchimento rápido do formulário e minimizando erros de entrada.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-lg mb-2">📡 Offline First (Evolução)</h3>
+                        <p class="text-stone-600">Para uma versão 2.0, implementar funcionalidade offline, salvando dados localmente e sincronizando quando a conexão for restabelecida.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-16 py-6 border-t border-stone-200">
+            <p class="text-stone-500 text-sm">Análise Interativa gerada a partir da Especificação Técnica do Projeto.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Interactive Architecture Cards
+            const architectureCards = document.querySelectorAll('.architecture-card');
+            architectureCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Close other open cards
+                    architectureCards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.classList.remove('open');
+                        }
+                    });
+                    // Toggle the clicked card
+                    card.classList.toggle('open');
+                });
+            });
+
+            // Tech Stack Card Hover/Click
+            const techCards = document.querySelectorAll('.tech-card');
+            techCards.forEach(card => {
+                const details = card.querySelector('.details');
+                
+                const showDetails = () => details.style.display = 'block';
+                const hideDetails = () => details.style.display = 'none';
+
+                card.addEventListener('mouseenter', showDetails);
+                card.addEventListener('mouseleave', hideDetails);
+                card.addEventListener('click', () => {
+                   if (details.style.display === 'block') {
+                       hideDetails();
+                   } else {
+                       showDetails();
+                   }
+                });
+            });
+
+            // Module Tabs
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    tabContents.forEach(content => {
+                        if (content.id === `${tabName}-content`) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+            
+            // Chart.js: Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Venda', 'Manutenção', 'Instalação'],
+                    datasets: [{
+                        label: 'Distribuição por Categoria',
+                        data: [55, 25, 20],
+                        backgroundColor: [
+                            'rgba(34, 197, 94, 0.8)',  // emerald-500
+                            'rgba(245, 158, 11, 0.8)', // amber-500
+                            'rgba(59, 130, 246, 0.8)'  // blue-500
+                        ],
+                        borderColor: '#f5f5f4',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart.js: Line Chart
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                    datasets: [{
+                        label: 'Volume de Envios',
+                        data: [120, 150, 180, 160, 210, 240],
+                        fill: true,
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)', // violet-500
+                        borderColor: 'rgba(139, 92, 246, 1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                         legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
