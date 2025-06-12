@@ -1,0 +1,1 @@
+# Plataforma-de-Coleta-de-Dados
